@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '0.10'
+before_install:
+  - currentfolder=${PWD##*/}
+  - if [ "$currentfolder" != 'generator-littlest-isomorph' ]; then cd .. && eval "mv $currentfolder generator-littlest-isomorph" && cd generator-littlest-isomorph; fi
+
