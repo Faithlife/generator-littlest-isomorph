@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+/*!
+ * Since most of the work goes on in `lib/client` and `lib/server`, the
+ * top-level bin script only needs start the latter.
+ */
+
+// Transparently allow require-ing `component.jsx`.
+require('node-jsx').install({ extension: '.jsx' });
+
+var app = require('../lib/server');
+var config = require('../lib/config');
+
+app.listen(config.port);
+
+console.log('Server %s listening on port %s...', process.pid, config.port);
+console.log('Config: %j', config);
