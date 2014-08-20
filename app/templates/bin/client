@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+/*!
+ * This "script" bootstraps the client-specific code. See Client.js for
+ * more information.
+ */
+var littlest = require('littlest-isomorph');
+var routes = require('../lib/routes');
+
+// Install the client.
+littlest.Client({
+  router: new littlest.Router({
+    routes: routes
+  }),
+  window: typeof window === 'undefined' ? this : window
+})
+  .start();
+
+// Log the top-level configuration for debugging.
+console.log('Config:', require('../lib/config'));

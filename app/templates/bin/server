@@ -1,15 +1,46 @@
 #!/usr/bin/env node
 
-/*!
- * Since most of the work goes on in `lib/client` and `lib/server`, the
- * top-level bin script only needs start the latter.
- */
-
 // Transparently allow require-ing `component.jsx`.
 require('node-jsx').install({ extension: '.jsx' });
 
-var app = require('../lib/server');
+/*!
+ * `bin/server` contains all server-specific code, run immediately only on the
+ * server.
+ *
+ * Our server-specific concerns are:
+ * - Serving static and compiled files.
+ * - Server-side routing and rendering initial content.
+ * - Bad or old links (404, 301, etc.)
+ */
+var path = require('path');
+var ecstatic = require('ecstatic');
+var connect = require('connect');
+var littlest = require('littlest-isomorph');
+var morgan = require('morgan');
 var config = require('../lib/config');
+var routes = require('../lib/routes');
+var router = new littlest.Router({ routes: routes });
+var app = connect();
+
+// Install a development-focused logger.
+// NOTE: On a production site, this should be a more comprehensive solution.
+app.use(morgan('dev'));
+
+// Ecstatic middleware for static files. Ecstatic should fall through on _all_
+// unknown routes.
+app.use(ecstatic({
+  root: path.resolve(__dirname, '..', 'public'),
+  showDir: false,
+  autoIndex: false
+}));
+
+// If the request URL is valid, this renders the top-level component, the
+// Application, based on the current Router configuration. Otherwise, a 404
+// is generated.
+app.use(littlest.renderer({
+  templatePath: path.resolve(__dirname, '..', 'public', 'index.html'),
+  router: router
+}));
 
 app.listen(config.port);
 
