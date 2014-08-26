@@ -18,6 +18,19 @@ var mach = require('mach');
 var config = require('../lib/config');
 var router = require('../lib/router');
 var app = mach.stack();
+var renderer = littlest.renderer(null, {
+  templatePath: path.resolve(__dirname, '..', 'public', 'index.html'),
+  router: router
+});
+
+app.use(function (app) {
+  return function (request) {
+    return request.call(app)
+      .then(null, function (err) {
+        return renderer.render(router.getErrorComponent(500, err.message));
+      });
+  };
+});
 
 // Install a development-focused logger.
 // NOTE: On a production site, this should be a more comprehensive solution.
@@ -30,10 +43,7 @@ app.use(mach.file, 'public');
 // If the request URL is valid, this renders the top-level component, the
 // Application, based on the current Router configuration. Otherwise, a 404
 // is generated.
-app.use(littlest.renderer, {
-  templatePath: path.resolve(__dirname, '..', 'public', 'index.html'),
-  router: router
-});
+renderer.mount(app);
 
 mach.serve(app, config.port);
 
