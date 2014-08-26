@@ -46,10 +46,10 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.copy('lib/components/about.jsx', 'lib/components/about.jsx');
     this.copy('lib/components/app.jsx', 'lib/components/app.jsx');
     this.copy('lib/components/home.jsx', 'lib/components/home.jsx');
-    this.copy('lib/components/not-found.jsx', 'lib/components/not-found.jsx');
+    this.copy('lib/components/error.jsx', 'lib/components/error.jsx');
     this.copy('lib/components/user.jsx', 'lib/components/user.jsx');
     this.copy('lib/config.js', 'lib/config.js');
-    this.copy('lib/routes.js', 'lib/routes.js');
+    this.copy('lib/router.js', 'lib/router.js');
     this.copy('styles/app.less', 'styles/app.less');
   }
 });
