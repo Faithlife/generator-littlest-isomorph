@@ -4,12 +4,12 @@
 var React = require('react');
 var About = require('./about.jsx');
 var Home = require('./home.jsx');
-var NotFound = require('./not-found.jsx');
+var Error = require('./error.jsx');
 var User = require('./user.jsx');
 
 var App = React.createClass({
   getMainContent: function () {
-    switch (this.props.route.name) {
+    switch (this.props.route && this.props.route.name) {
       case 'index':
         return <Home />;
       case 'about':
@@ -17,7 +17,7 @@ var App = React.createClass({
       case 'user':
         return <User username={this.props.route.params.userName} />;
       default:
-        return <NotFound />;
+        return <Error code={this.props.status} message={this.props.error} />;
     }
   },
   render: function () {
