@@ -4,13 +4,11 @@
  * more information.
  */
 var littlest = require('littlest-isomorph');
-var routes = require('../lib/routes');
+var router = require('../lib/router');
 
 // Install the client.
 littlest.Client({
-  router: new littlest.Router({
-    routes: routes
-  }),
+  router: router,
   window: typeof window === 'undefined' ? this : window
 })
   .start();

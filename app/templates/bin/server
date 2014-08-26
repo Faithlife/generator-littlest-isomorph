@@ -16,8 +16,7 @@ var path = require('path');
 var littlest = require('littlest-isomorph');
 var mach = require('mach');
 var config = require('../lib/config');
-var routes = require('../lib/routes');
-var router = new littlest.Router({ routes: routes });
+var router = require('../lib/router');
 var app = mach.stack();
 
 // Install a development-focused logger.
