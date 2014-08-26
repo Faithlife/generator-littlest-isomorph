@@ -38,7 +38,7 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.template('README.md', 'README.md', this.props);
 
     this.copy('.editorconfig', '.editorconfig');
-    this.copy('.gitignore', '.gitignore');
+    this.copy('_gitignore', '.gitignore');
     this.copy('Gruntfile.js', 'Gruntfile.js');
     this.copy('index.js', 'index.js');
     this.copy('bin/client', 'bin/client');
