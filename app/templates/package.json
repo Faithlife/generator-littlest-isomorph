@@ -11,7 +11,7 @@
     "mach": "~0.12.0",
     "node-jsx": "~0.11.0",
     "react": "~0.11.1",
-    "react-when": "~1.0.0",
+    "react-when": "~1.1.0",
     "routr": "0.0.1",
     "superagent": "~0.18.2",
     "when": "~3.4.2"
