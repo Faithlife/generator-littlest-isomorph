@@ -1,4 +1,5 @@
 var fork = require('child_process').fork;
+var fs = require('fs');
 var path = require('path');
 
 module.exports = function (grunt) {
@@ -39,6 +40,10 @@ module.exports = function (grunt) {
           atBegin: true
         }
       },
+      server: {
+        files: ['bin/server'],
+        tasks: ['restart-server']
+      },
       styles: {
         files: ['styles/**/*.less'],
         tasks: ['less'],
@@ -52,6 +57,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+
+  // A supervisor-specific hack to restart the server without running a
+  // complete Browserify pass, though it's Browserify's output it's watching.
+  grunt.registerTask('restart-server', function () {
+    fs.appendFileSync(path.resolve(__dirname, 'public', 'bundle.js'), ' ');
+  });
 
   grunt.registerTask('server', function () {
     grunt.util.spawn({
