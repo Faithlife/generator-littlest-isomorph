@@ -81,6 +81,6 @@ module.exports = function (grunt) {
     });
   });
 
-  grunt.registerTask('default', ['browserify']);
+  grunt.registerTask('default', ['browserify', 'less']);
   grunt.registerTask('dev', ['server', 'watch']);
 };
