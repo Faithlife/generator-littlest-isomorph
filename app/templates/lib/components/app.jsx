@@ -15,7 +15,7 @@ var App = React.createClass({
       case 'about':
         return <About />;
       case 'user':
-        return <User username={this.props.route.params.userName} />;
+        return <User name={this.props.route.params.name} />;
       default:
         return <Error code={this.props.status} message={this.props.error} />;
     }
