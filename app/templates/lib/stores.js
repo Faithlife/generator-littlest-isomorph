@@ -1,9 +1,12 @@
-var dispatcher = require('../dispatcher');
+var context = require('./context');
 
-module.exports = dispatcher.createStore()
+context.createStore('user')
   .handle('user:fetch:succeeded', function (data) {
     var key = data.login.toLowerCase();
 
-    this.define(key);
+    if (!this.has(key)) {
+      this.define(key);
+    }
+
     this[key] = data;
   });

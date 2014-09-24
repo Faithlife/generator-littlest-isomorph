@@ -1,30 +1,29 @@
 /**
  * @jsx React.DOM
  */
+var littlest = require('littlest-isomorph');
 var React = require('react');
 var superagent = require('superagent');
 var when = require('when');
-var actions = require('../actions');
-var userStore = require('../stores/user');
 
 var User = React.createClass({
+  propTypes: {
+    context: React.PropTypes.instanceOf(littlest.Context).isRequired
+  },
   getInitialState: function() {
     return {
-      user: userStore[this.props.name]
+      user: this.props.context.getStore('user')[this.props.name]
     };
   },
   componentDidMount: function() {
     var self = this;
 
-    userStore.on('change:' + self.props.name, function (user) {
-      self.setState({
-        user: user
+    this.props.context.getStore('user')
+      .on('change:' + self.props.name, function (user) {
+        self.setState({
+          user: user
+        });
       });
-    });
-
-    actions.fetchUser({
-      name: self.props.name
-    });
   },
   render: function() {
     if (!this.state.user) {

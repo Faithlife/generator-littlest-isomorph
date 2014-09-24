@@ -4,7 +4,6 @@
  */
 var littlest = require('littlest-isomorph');
 var App = require('./components/app.jsx');
-var actions = require('./actions');
 
 module.exports = new littlest.Router({
   routes: {
@@ -16,7 +15,7 @@ module.exports = new littlest.Router({
     },
     user: {
       path: '/user/:name',
-      action: actions.fetchUser
+      action: 'user:fetch'
     }
   },
   defaults: {

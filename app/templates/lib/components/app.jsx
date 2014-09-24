@@ -9,15 +9,15 @@ var User = require('./user.jsx');
 
 var App = React.createClass({
   getMainContent: function () {
-    switch (this.props.route && this.props.route.name) {
+    switch (this.props.route.name) {
       case 'index':
         return <Home />;
       case 'about':
         return <About />;
       case 'user':
-        return <User name={this.props.route.params.name} />;
+        return <User context={this.props.context} name={this.props.route.params.name} />;
       default:
-        return <Error code={this.props.status} message={this.props.error} />;
+        return <Error code={this.props.route.status} message={this.props.route.error} />;
     }
   },
   render: function () {

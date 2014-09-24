@@ -5,14 +5,17 @@
  */
 var littlest = require('littlest-isomorph');
 var React = require('react');
+var context = require('../lib/context');
 var router = require('../lib/router');
 
 // Install the client.
-littlest.Client({
-  router: router,
-  window: typeof window === 'undefined' ? this : window,
-  React: React
-})
+littlest
+  .createClient({
+    router: router,
+    window: typeof window === 'undefined' ? this : window,
+    React: React,
+    context: context
+  })
   .start();
 
 // Log the top-level configuration for debugging.

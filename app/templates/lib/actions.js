@@ -1,9 +1,8 @@
 var superagent = require('superagent');
 var when = require('when');
-var dispatcher = require('./dispatcher');
-var actions = {};
+var context = require('./context');
 
-actions.fetchUser = dispatcher.createAction('user:fetch', function (params) {
+context.createAction('user:fetch', function (params) {
   var name = params.name;
 
   return when.promise(function (resolve, reject) {
@@ -18,5 +17,3 @@ actions.fetchUser = dispatcher.createAction('user:fetch', function (params) {
       });
   });
 });
-
-module.exports = actions;

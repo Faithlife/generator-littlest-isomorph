@@ -18,12 +18,14 @@ var littlest = require('littlest-isomorph');
 var morgan = require('morgan');
 var React = require('react');
 var config = require('../lib/config');
+var context = require('../lib/context');
 var router = require('../lib/router');
 var app = express();
 var renderer = littlest.createRenderer({
   templatePath: path.resolve(__dirname, '..', 'public', 'index.html'),
   router: router,
-  React: React
+  React: React,
+  context: context
 });
 
 app.use(renderer.errorHandler());
@@ -42,6 +44,7 @@ app.use(express.static('public', {
 // If the request URL is valid, this renders the top-level component, the
 // Application, based on the current Router configuration. Otherwise, a 404
 // is generated.
+app.use(renderer.childContextHandler());
 app.use(renderer.requestHandler());
 
 app.listen(config.port);
