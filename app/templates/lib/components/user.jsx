@@ -37,7 +37,10 @@ var User = React.createClass({
         <img src={this.state.user.avatar_url} alt="Avatar Image" width="128px" heigth="128px" />
         <h1>{this.state.user.name}</h1>
         <dl>
+          <dt>Location:</dt><dd>{this.state.user.location}</dd>
           <dt>Company:</dt><dd>{this.state.user.company}</dd>
+          <dt>Member since:</dt><dd>{Date.parse(this.state.user.created_at).toDateString()}</dd>
+          <dt>Website:</dt><dd><a href={this.state.user.blog}>{this.state.user.blog}</a></dd>
         </dl>
       </div>
     );

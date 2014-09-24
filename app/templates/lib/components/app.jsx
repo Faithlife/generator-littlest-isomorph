@@ -22,17 +22,20 @@ var App = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        {this.getMainContent()}
-        <footer>
+      <div className="app">
+        <div className="app__sidebar">
+          <h1><a href="/"><%= title %></a></h1>
           <nav>
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/about">About</a></li>
-              <li><a href="/user/schoonology">Schoonology</a></li>
+            <ul className="nav-list">
+              <li><a className="nav-list__item" href="/">Home</a></li>
+              <li><a className="nav-list__item" href="/about">About</a></li>
+              <li><a className="nav-list__item" href="/user/schoonology">Schoonology</a></li>
             </ul>
           </nav>
-        </footer>
+        </div>
+        <div className="app__content">
+          {this.getMainContent()}
+        </div>
       </div>
     );
   }

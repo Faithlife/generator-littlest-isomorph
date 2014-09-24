@@ -15,11 +15,7 @@ module.exports = function (grunt) {
     },
     less: {
       client: {
-        src: [
-          'node_modules/purecss/pure.css',
-          'node_modules/purecss/grids-responsive.css',
-          'styles/**/*.less'
-        ],
+        src: ['styles/bundle.less'],
         dest: 'public/bundle.css',
         options: {
           paths: function (srcFile) {

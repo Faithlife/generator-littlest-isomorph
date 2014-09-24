@@ -2,6 +2,7 @@
  * @jsx React.DOM
  */
 var React = require('react');
+var config = require('../config');
 
 var About = React.createClass({
   render: function () {
@@ -9,7 +10,7 @@ var About = React.createClass({
       <div>
         <h1>About</h1>
         <p>Config:</p>
-        <pre><code>{JSON.stringify(this.props.config, null, 2)}</code></pre>
+        <pre><code>{JSON.stringify(config, null, 2)}</code></pre>
       </div>
     );
   }

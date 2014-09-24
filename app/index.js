@@ -49,18 +49,16 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
-    this.template('_package.json', 'package.json', this.props);
-    this.template('public/index.html', 'public/index.html', this.props);
-    this.template('README.md', 'README.md', this.props);
-
     this.copy('.editorconfig', '.editorconfig');
     this.copy('_gitignore', '.gitignore');
     this.copy('_Gruntfile.js', 'Gruntfile.js');
+    this.template('_package.json', 'package.json', this.props);
     this.copy('index.js', 'index.js');
+    this.template('README.md', 'README.md', this.props);
     this.copy('bin/client', 'bin/client');
     this.copy('bin/server', 'bin/server');
     this.copy('lib/components/about.jsx', 'lib/components/about.jsx');
-    this.copy('lib/components/app.jsx', 'lib/components/app.jsx');
+    this.template('lib/components/app.jsx', 'lib/components/app.jsx', this.props);
     this.copy('lib/components/home.jsx', 'lib/components/home.jsx');
     this.copy('lib/components/error.jsx', 'lib/components/error.jsx');
     this.copy('lib/components/user.jsx', 'lib/components/user.jsx');
@@ -69,8 +67,12 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.copy('lib/context.js', 'lib/context.js');
     this.copy('lib/router.js', 'lib/router.js');
     this.copy('lib/stores.js', 'lib/stores.js');
+    this.template('public/index.html', 'public/index.html', this.props);
     this.copy('public/favicon.ico', 'public/favicon.ico');
     this.copy('styles/app.less', 'styles/app.less');
+    this.copy('styles/bundle.less', 'styles/bundle.less');
+    this.copy('styles/mixins.less', 'styles/mixins.less');
+    this.copy('styles/reset.less', 'styles/reset.less');
   },
 
   dependencies: function () {
