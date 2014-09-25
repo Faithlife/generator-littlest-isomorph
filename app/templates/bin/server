@@ -30,9 +30,8 @@ var renderer = littlest.createRenderer({
 
 app.use(renderer.errorHandler());
 
-// Install a development-focused logger.
-// NOTE: On a production site, this should be a more comprehensive solution.
-app.use(morgan('dev'));
+// Install a logger that sends formatted messages to STDOUT.
+app.use(morgan(config.logger.format));
 
 // File middleware for static files. Should fall through on _all_
 // unknown routes.

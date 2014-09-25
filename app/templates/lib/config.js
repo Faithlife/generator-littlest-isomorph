@@ -7,7 +7,30 @@
  * If the configuration doesn't seem to match on the client and on the server,
  * _make sure the same environment variables are specified on both!_
  */
+var env = process.env.NODE_ENV || 'development';
+var validEnvs = ['development', 'production'];
+
+if (validEnvs.indexOf(env) === -1) {
+  console.error('Invalid environment name:', env);
+}
+
+function byEnv(config) {
+  validEnvs.forEach(function (name) {
+    if (typeof config[name] === 'undefined') {
+      console.warn('Configuration missing value for environment:', name);
+    }
+  });
+
+  return config[env];
+}
+
 module.exports = {
-  env: process.env.NODE_ENV || 'dev',
-  port: process.env.PORT || 8080
+  env: env,
+  port: process.env.PORT || 8080,
+  logger: {
+    format: byEnv({
+      development: 'dev',
+      production: 'combined'
+    })
+  }
 };
