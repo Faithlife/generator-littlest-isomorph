@@ -9,6 +9,7 @@
  * If the configuration doesn't seem to match on the client and on the server,
  * _make sure the same environment variables are specified on both!_
  */
+var os = require('os');
 var env = process.env.NODE_ENV || 'development';
 var validEnvs = ['development', 'production'];
 
@@ -29,6 +30,12 @@ function byEnv(config) {
 module.exports = {
   env: env,
   port: process.env.PORT || 8080,
+  cluster: {
+    instances: byEnv({
+      development: 2,
+      production: os.cpus().length
+    })
+  },
   logger: {
     format: byEnv({
       development: 'dev',

@@ -29,16 +29,23 @@ module.exports = function (grunt) {
       }
     },
     watch: {
-      scripts: {
-        files: ['bin/client', 'lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
+      client: {
+        files: ['bin/client'],
         tasks: ['browserify'],
         options: {
           atBegin: true
         }
       },
+      shared: {
+        files: ['lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
+        tasks: ['npm:stop', 'browserify', 'npm:start']
+      },
       server: {
-        files: ['bin/server'],
-        tasks: ['restart-server']
+        files: ['bin/server', 'bin/cluster'],
+        tasks: ['npm:stop', 'npm:start'],
+        options: {
+          atBegin: true
+        }
       },
       styles: {
         files: ['styles/**/*.less'],
@@ -54,29 +61,17 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // A supervisor-specific hack to restart the server without running a
-  // complete Browserify pass, though it's Browserify's output it's watching.
-  grunt.registerTask('restart-server', function () {
-    fs.appendFileSync(path.resolve(__dirname, 'public', 'bundle.js'), ' ');
-  });
-
-  grunt.registerTask('server', function () {
+  grunt.registerTask('npm', function (command, arg) {
     grunt.util.spawn({
-      cmd: 'node',
-      args: [
-        './node_modules/supervisor/lib/cli-wrapper.js',
-        '-w', 'public',
-        '-e', 'html,js,json',
-        'index.js'
-      ],
+      cmd: 'npm',
+      args: [command].concat(arg || []),
       opts: {
         stdio: 'inherit'
       }
-    }, function () {
-      grunt.fail.fatal(new Error('Supervisor quit.'));
-    });
+    }, this.async());
   });
 
   grunt.registerTask('default', ['browserify', 'less']);
-  grunt.registerTask('dev', ['server', 'watch']);
+  grunt.registerTask('dev', ['watch']);
+  grunt.registerTask('logs', ['npm:run-script:logs']);
 };
