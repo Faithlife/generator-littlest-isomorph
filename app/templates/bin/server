@@ -46,10 +46,16 @@ app.use(express.static('public', {
   redirect: false
 }));
 
+// Middleware to isolate a child Context for each request. Immediately after
+// this middleware should come any customization to request-based Contexts,
+// while global Context changes should occur within this script (presumably)
+// not in middleware, since those changes should be done independent of
+// requests.
+app.use(renderer.childContextHandler());
+
 // If the request URL is valid, this renders the top-level component, the
 // Application, based on the current Router configuration. Otherwise, a 404
 // is generated.
-app.use(renderer.childContextHandler());
 app.use(renderer.requestHandler());
 
 app.listen(config.port);
