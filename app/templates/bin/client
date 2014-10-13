@@ -7,6 +7,7 @@
  */
 var littlest = require('littlest-isomorph');
 var React = require('react');
+var config = require('../lib/config');
 var context = require('../lib/context');
 var router = require('../lib/router');
 
@@ -21,4 +22,9 @@ littlest
   .start();
 
 // Log the top-level configuration for debugging.
-console.log('Config:', require('../lib/config'));
+console.log('Config:', config);
+
+// Expose React to trigger the React devtools.
+if (config.env === 'development') {
+  global.React = React;
+}
