@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict';
+
 /*!
  * This "script" bootstraps the client-specific code. See Client.js for
  * more information.

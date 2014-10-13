@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * Config.js is responsible for rendering the top-level configuration as
  * required by client, server, or both. _No information should exist here that

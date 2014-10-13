@@ -1,5 +1,5 @@
-var fork = require('child_process').fork;
-var fs = require('fs');
+'use strict';
+
 var path = require('path');
 
 module.exports = function (grunt) {
