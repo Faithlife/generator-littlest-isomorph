@@ -49,14 +49,19 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
+    this.copy('.dockerignore', '.dockerignore');
     this.copy('.editorconfig', '.editorconfig');
+    this.copy('_Dockerfile', 'Dockerfile');
     this.copy('_gitignore', '.gitignore');
     this.copy('_Gruntfile.js', 'Gruntfile.js');
     this.template('_package.json', 'package.json', this.props);
     this.copy('index.js', 'index.js');
     this.template('README.md', 'README.md', this.props);
     this.copy('bin/client', 'bin/client');
+    this.copy('bin/cluster', 'bin/cluster');
     this.copy('bin/server', 'bin/server');
+    this.copy('data/env/development.json', 'data/env/development.json');
+    this.copy('data/env/production.json', 'data/env/production.json');
     this.copy('lib/components/about.jsx', 'lib/components/about.jsx');
     this.template('lib/components/app.jsx', 'lib/components/app.jsx', this.props);
     this.copy('lib/components/home.jsx', 'lib/components/home.jsx');

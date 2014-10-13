@@ -19,15 +19,15 @@ module.exports = new littlest.Router({
     }
   },
   defaults: {
-    component: App,
+    body: App,
     props: {}
   },
   errors: {
     NotFound: {
-      component: App
+      body: App
     },
     '500': {
-      component: App
+      body: App
     }
   }
 });
