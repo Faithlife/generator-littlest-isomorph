@@ -14,7 +14,7 @@ var env = process.env.NODE_ENV || 'development';
 var validEnvs = ['development', 'production'];
 
 if (validEnvs.indexOf(env) === -1) {
-  console.error('Invalid environment name:', env);
+  throw new Error('Invalid environment name:', env);
 }
 
 function byEnv(config) {
