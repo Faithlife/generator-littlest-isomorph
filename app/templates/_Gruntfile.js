@@ -37,11 +37,11 @@ module.exports = function (grunt) {
         }
       },
       shared: {
-        files: ['lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
+        files: ['data/**/*.json', 'lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
         tasks: ['npm:stop', 'browserify', 'npm:start']
       },
       server: {
-        files: ['bin/server', 'bin/cluster'],
+        files: ['bin/server', 'bin/cluster', 'public/index.html'],
         tasks: ['npm:stop', 'npm:start'],
         options: {
           atBegin: true
