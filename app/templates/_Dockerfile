@@ -7,4 +7,4 @@ COPY . /src
 WORKDIR /src
 
 RUN npm install --unsafe-perm
-CMD npm start && npm run-script logs
+CMD node bin/cluster

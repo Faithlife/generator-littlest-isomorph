@@ -62,3 +62,11 @@ app.listen(config.port);
 
 console.log('Server %s listening on port %s...', process.pid, config.port);
 console.log('Config: %j', config);
+
+// The `disconnect` event is used by `cluster`, the master process, to signal
+// a graceful shutdown. Node core will take care of managing the currently-open
+// sockets, both open and bound, which should be our only open handles. At
+// some point after this, the process should exit gracefully on its own.
+process.on('disconnect', function () {
+  console.log('Server %s shutting down...', process.pid);
+});

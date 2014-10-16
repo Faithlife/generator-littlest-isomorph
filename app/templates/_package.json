@@ -4,10 +4,10 @@
   "description": "<%= description %>",
   "main": "index.js",
   "scripts": {
-    "start": "forever start -al `pwd`/logs bin/cluster | tee logs",
-    "stop": "forever stop bin/cluster | tee -a logs",
+    "start": "node bin/cluster >> logs 2>&1 &",
+    "stop": "cat data/cluster.pid | xargs -n 1 kill",
     "test": "curl localhost:8080/up",
-    "logs": "touch logs && tail -f logs"
+    "logs": "touch logs && tail -F logs"
   },
   "dependencies": {
     "express": "~4.9.3",
