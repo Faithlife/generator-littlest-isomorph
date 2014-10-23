@@ -7,7 +7,8 @@ var path = require('path');
 var config = require('../lib/config');
 var recentCrashes = 0;
 var pidFile = path.resolve(__dirname, '..', 'data', 'cluster.pid');
-var timerIds = [];
+var timeoutIds = [];
+var intervalIds = [];
 
 if (fs.existsSync(pidFile)) {
   console.error('Master already running as %s. Bailing...', fs.readFileSync(pidFile).toString().trim());
@@ -46,12 +47,12 @@ cluster.on('exit', function (worker, code, signal) {
 
   console.warn('Worker %s left with %s. Starting a new worker in %s ms...', worker.process.pid, signal || code, delay);
 
-  setTimeout(cluster.fork, delay);
+  timeoutIds.push(setTimeout(cluster.fork, delay));
 });
 
 // This interval keeps a natural limit on the maximum delay at 3200 ms, as well
 // as helping lower that delay to its minimum over time.
-timerIds.push(setInterval(function () {
+intervalIds.push(setInterval(function () {
   if (recentCrashes) {
     recentCrashes--;
   }
@@ -65,7 +66,8 @@ process.on('SIGINT', shutdown);
 function shutdown() {
   console.log('Master %s shutting down...', process.pid);
 
-  timerIds.forEach(clearInterval);
+  intervalIds.forEach(clearInterval);
+  timeoutIds.forEach(clearTimeout);
 
   fs.unlinkSync(pidFile);
   cluster.disconnect();
