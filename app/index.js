@@ -64,11 +64,12 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.copy('data/env/production.json', 'data/env/production.json');
     this.copy('lib/actions/org.js', 'lib/actions/org.js');
     this.copy('lib/actions/user.js', 'lib/actions/user.js');
-    this.copy('lib/components/about.jsx', 'lib/components/about.jsx');
     this.template('lib/components/app.jsx', 'lib/components/app.jsx', this.props);
-    this.copy('lib/components/home.jsx', 'lib/components/home.jsx');
-    this.copy('lib/components/error.jsx', 'lib/components/error.jsx');
-    this.copy('lib/components/user.jsx', 'lib/components/user.jsx');
+    this.copy('lib/components/screens/about.jsx', 'lib/components/screens/about.jsx');
+    this.copy('lib/components/screens/home.jsx', 'lib/components/screens/home.jsx');
+    this.copy('lib/components/screens/error.jsx', 'lib/components/screens/error.jsx');
+    this.copy('lib/components/screens/user.jsx', 'lib/components/screens/user.jsx');
+    this.copy('lib/components/screens/org.jsx', 'lib/components/screens/org.jsx');
     this.copy('lib/stores/org.js', 'lib/stores/org.js');
     this.copy('lib/stores/user.js', 'lib/stores/user.js');
     this.copy('lib/config.js', 'lib/config.js');

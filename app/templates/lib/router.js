@@ -3,31 +3,42 @@
  * error pages, etc.
  */
 var littlest = require('littlest-isomorph');
-var App = require('./components/app.jsx');
+var About = require('./components/screens/about.jsx');
+var Error = require('./components/screens/error.jsx');
+var Home = require('./components/screens/home.jsx');
+var Organization = require('./components/screens/org.jsx');
+var User = require('./components/screens/user.jsx');
 
 module.exports = new littlest.Router({
   routes: {
     index: {
-      path: '/'
+      path: '/',
+      body: Home
     },
     about: {
-      path: '/about'
+      path: '/about',
+      body: About
     },
     user: {
       path: '/user/:name',
+      body: User,
       action: 'user:fetch'
+    },
+    org: {
+      path: '/orgs/:name',
+      body: Organization,
+      action: 'org:fetch'
     }
   },
   defaults: {
-    body: App,
     props: {}
   },
   errors: {
     NotFound: {
-      body: App
+      body: Error
     },
     '500': {
-      body: App
+      body: Error
     }
   }
 });

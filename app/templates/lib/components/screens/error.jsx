@@ -2,14 +2,15 @@
  * @jsx React.DOM
  */
 var React = require('react');
+var App = require('../app.jsx');
 
 var Error = React.createClass({
   render: function () {
     return (
-      <div>
+      <App>
         <h1>{this.props.code} Error</h1>
         <p>Message: <code>{this.props.message}</code></p>
-      </div>
+      </App>
     );
   }
 });
