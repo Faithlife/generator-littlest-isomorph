@@ -18,6 +18,7 @@ var express = require('express');
 var littlest = require('littlest-isomorph');
 var morgan = require('morgan');
 var React = require('react');
+var GitHubClient = require('../lib/clients/github');
 var config = require('../lib/config');
 var context = require('../lib/context');
 var router = require('../lib/router');
@@ -29,6 +30,11 @@ var renderer = littlest.createRenderer({
   context: context
 });
 
+// Mount a client on the parent Context. We'll attach a per-user client in
+// middleware, below.
+context.github = GitHubClient.createClient(config.client.github.actual);
+
+// Global error handler
 app.use(renderer.errorHandler());
 
 // Load-balancer-friendly up check
@@ -46,6 +52,12 @@ app.use(express.static('public', {
   redirect: false
 }));
 
+// Since our client provides a subapp to proxy requests, we include that subapp
+// here. This is optional, but will simplify CORS considerations, for example.
+// If proxying is undesirable, remove this middleware and use a shared `config`
+// for all client-side and server-side clients.
+app.use(config.client.github.proxy.rootUrl, context.github.subapp());
+
 // Middleware to isolate a child Context for each request. Immediately after
 // this middleware should come any customization to request-based Contexts,
 // while global Context changes should occur within this script (presumably)
@@ -53,11 +65,19 @@ app.use(express.static('public', {
 // requests.
 app.use(renderer.childContextHandler());
 
+// Now that there's a child Context, we need to re-attach any user-specific
+// attachments. In this case, it's just our client.
+app.use(function (req, res, next) {
+  req.context.github = context.github.getChild({});
+  next();
+});
+
 // If the request URL is valid, this renders the top-level component, the
 // Application, based on the current Router configuration. Otherwise, a 404
 // is generated.
 app.use(renderer.requestHandler());
 
+// Finally, listen for requests!
 app.listen(config.port);
 
 console.log('Server %s listening on port %s...', process.pid, config.port);

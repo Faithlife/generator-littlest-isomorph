@@ -41,5 +41,15 @@ module.exports = {
       development: 'dev',
       production: 'combined'
     })
+  },
+  client: {
+    github: {
+      actual: {
+        rootUrl: 'https://api.github.com'
+      },
+      proxy: {
+        rootUrl: '/api/github'
+      }
+    }
   }
 };
