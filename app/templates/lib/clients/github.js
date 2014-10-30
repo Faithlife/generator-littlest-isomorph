@@ -32,7 +32,7 @@ GitHubClient.prototype.getUser = function getUser(options) {
         throw new Error(response.text);
       }
 
-      return response.body);
+      return response.body;
     });
 };
 
@@ -49,7 +49,7 @@ GitHubClient.prototype.getOrganization = function getOrganization(options) {
         throw new Error(response.text);
       }
 
-      return response.body);
+      return response.body;
     });
 };
 
