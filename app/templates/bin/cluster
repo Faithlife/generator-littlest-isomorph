@@ -10,6 +10,22 @@ var pidFile = path.resolve(__dirname, '..', 'data', 'cluster.pid');
 var timeoutIds = [];
 var intervalIds = [];
 
+// To start, we need to verify the state of the cluster to prevent split-brain
+// syndrome. Even if the pid file exists, however, we need to be sure the
+// process is still alive.
+if (fs.existsSync(pidFile)) {
+  try {
+    process.kill(fs.readFileSync(pidFile), 0);
+  } catch (e) {
+    if (e.code === 'ESRCH') {
+      // If we fail to kill the process, remove the PID file and move on.
+      fs.unlinkSync(pidFile);
+    }
+  }
+}
+
+// If any of the above checks have failed, the pid file should still exist, and
+// we abort starting the new cluster.
 if (fs.existsSync(pidFile)) {
   console.error('Master already running as %s. Bailing...', fs.readFileSync(pidFile).toString().trim());
   process.exit(1);
