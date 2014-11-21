@@ -90,6 +90,6 @@ function shutdown() {
 }
 
 // Finally, write the pid in case we're being daemonized. This indicates to
-// watchers hat we've finished bootstrapping the cluster, now ready to receive
+// watchers that we've finished bootstrapping the cluster, now ready to receive
 // control signals.
 fs.appendFileSync(pidFile, process.pid + '\n');
