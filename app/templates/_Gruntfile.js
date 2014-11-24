@@ -2,15 +2,33 @@
 
 var path = require('path');
 
+var dependencies = [
+  'littlest-dispatcher',
+  'littlest-isomorph',
+  'proxy-client',
+  'react',
+  'routr',
+  'superagent',
+  'when'
+];
+
 module.exports = function (grunt) {
   var server;
 
   grunt.initConfig({
     browserify: {
-      client: {
-        src: ['bin/client'],
-        dest: 'public/bundle.js',
+      dependencies: {
+        src: [],
+        dest: 'public/dependencies.bundle.js',
         options: {
+          require: dependencies
+        }
+      },
+      app: {
+        src: ['bin/client'],
+        dest: 'public/app.bundle.js',
+        options: {
+          external: dependencies,
           transform: ['envify', 'reactify']
         }
       }
@@ -33,14 +51,14 @@ module.exports = function (grunt) {
     watch: {
       client: {
         files: ['bin/client'],
-        tasks: ['browserify'],
+        tasks: ['browserify:app'],
         options: {
           atBegin: true
         }
       },
       shared: {
         files: ['data/**/*.json', 'lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
-        tasks: ['browserify', 'server']
+        tasks: ['browserify:app', 'server']
       },
       server: {
         files: ['bin/server', 'bin/cluster', 'public/index.html'],
@@ -92,6 +110,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['browserify', 'less']);
-  grunt.registerTask('dev', ['watch']);
+  grunt.registerTask('dev', ['browserify:dependencies', 'watch']);
   grunt.registerTask('logs', ['npm:run-script:logs']);
 };
