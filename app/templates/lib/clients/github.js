@@ -16,6 +16,8 @@ function GitHubClient(options) {
   options = options || {};
 
   this.rootUrl = this.rootUrl || options.rootUrl || 'https://api.github.com';
+
+  ProxyClient.call(this, options);
 }
 ProxyClient.inherit(GitHubClient);
 
