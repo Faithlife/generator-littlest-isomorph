@@ -3,6 +3,8 @@
 var path = require('path');
 
 module.exports = function (grunt) {
+  var server;
+
   grunt.initConfig({
     browserify: {
       client: {
@@ -38,11 +40,11 @@ module.exports = function (grunt) {
       },
       shared: {
         files: ['data/**/*.json', 'lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
-        tasks: ['npm:stop', 'browserify', 'npm:start']
+        tasks: ['browserify', 'server']
       },
       server: {
         files: ['bin/server', 'bin/cluster', 'public/index.html'],
-        tasks: ['npm:stop', 'npm:start'],
+        tasks: ['server'],
         options: {
           atBegin: true
         }
@@ -53,6 +55,9 @@ module.exports = function (grunt) {
         options: {
           atBegin: true
         }
+      },
+      options: {
+        spawn: false
       }
     }
   });
@@ -69,6 +74,21 @@ module.exports = function (grunt) {
         stdio: 'inherit'
       }
     }, this.async());
+  });
+
+  grunt.registerTask('server', function () {
+    if (server) {
+      server.kill();
+    }
+
+    server = grunt.util.spawn({
+      cmd: 'node',
+      args: ['bin/server'],
+      opts: {
+        cwd: __dirname,
+        stdio: 'inherit'
+      }
+    }, function () {});
   });
 
   grunt.registerTask('default', ['browserify', 'less']);
