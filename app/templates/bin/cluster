@@ -85,9 +85,12 @@ function shutdown() {
   intervalIds.forEach(clearInterval);
   timeoutIds.forEach(clearTimeout);
 
-  fs.unlinkSync(pidFile);
   cluster.disconnect();
 }
+
+process.on('exit', function () {
+  fs.unlinkSync(pidFile);
+});
 
 // Finally, write the pid in case we're being daemonized. This indicates to
 // watchers that we've finished bootstrapping the cluster, now ready to receive
