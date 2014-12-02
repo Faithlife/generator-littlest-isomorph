@@ -94,6 +94,16 @@ module.exports = function (grunt) {
     }, this.async());
   });
 
+  grunt.registerTask('docker', function (command) {
+    grunt.util.spawn({
+      cmd: 'docker',
+      args: ['build', '-t', '<%= _.slugify(name) %>', '.']
+      opts: {
+        stdio: 'inherit'
+      }
+    }, this.async());
+  });
+
   grunt.registerTask('server', function () {
     if (server) {
       server.kill();
