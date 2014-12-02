@@ -39,7 +39,7 @@ app.use(renderer.errorHandler());
 
 // Load-balancer-friendly up check
 app.get('/up', function (req, res) {
-  res.send(204);
+  res.status(204).send();
 });
 
 // Install a logger that sends formatted messages to STDOUT.
