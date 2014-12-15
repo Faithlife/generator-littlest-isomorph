@@ -94,10 +94,10 @@ module.exports = function (grunt) {
     }, this.async());
   });
 
-  grunt.registerTask('docker', function (command) {
+  grunt.registerTask('docker', function () {
     grunt.util.spawn({
       cmd: 'docker',
-      args: ['build', '-t', '<%= _.slugify(name) %>', '.']
+      args: ['build', '-t', '<%= _.slugify(name) %>', '.'],
       opts: {
         stdio: 'inherit'
       }

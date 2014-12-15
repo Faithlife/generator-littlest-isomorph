@@ -13,9 +13,8 @@
 set -evuo pipefail
 IFS=$'\n\t'
 
-OLD_ID=`docker ps | grep <%= _.slugify(name) %> || true | awk '{ print $1 }'`
-NEW_NAME=<%= _.slugify(name) %>-`uuidgen`
-NEW_ID=`docker run -d -P --restart=on-failure --name=$NEW_NAME <%= _.slugify(name) %>`
+OLD_ID=`docker ps | (grep <%= _.slugify(name) %> || true) | awk '{ print $1 }'`
+NEW_ID=`docker run -d -P --restart=on-failure --name=$(<%= _.slugify(name) %>-`uuidgen`) --hostname=$(hostname) <%= _.slugify(name) %>`
 ADDR=`docker port $NEW_ID 8080`
 
 # TODO(schoon) - Don't name the container until this is successful. As this
