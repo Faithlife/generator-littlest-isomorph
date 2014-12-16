@@ -43,12 +43,14 @@ module.exports = {
     })
   },
   client: {
-    github: {
-      actual: {
-        rootUrl: 'https://api.github.com'
+    flickr: {
+      upstream: {
+        apiKey: '0cd1abd425f132a1e19971b61206fb0e',
+        rootUrl: 'https://api.flickr.com/services/rest'
       },
       proxy: {
-        rootUrl: '/api/github'
+        apiKey: '0cd1abd425f132a1e19971b61206fb0e',
+        rootUrl: '/api/flickr'
       }
     }
   }

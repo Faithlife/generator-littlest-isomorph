@@ -18,7 +18,7 @@ var express = require('express');
 var littlest = require('littlest-isomorph');
 var morgan = require('morgan');
 var React = require('react');
-var GitHubClient = require('../lib/clients/github');
+var FlickrClient = require('../lib/clients/flickr');
 var config = require('../lib/config');
 var context = require('../lib/context');
 var router = require('../lib/router');
@@ -32,7 +32,7 @@ var renderer = littlest.createRenderer({
 
 // Mount a client on the parent Context. We'll attach a per-user client in
 // middleware, below.
-context.github = GitHubClient.createClient(config.client.github.actual);
+context.flickr = FlickrClient.createClient(config.client.flickr.upstream);
 
 // Global error handler
 app.use(renderer.errorHandler());
@@ -56,7 +56,7 @@ app.use(express.static('public', {
 // here. This is optional, but will simplify CORS considerations, for example.
 // If proxying is undesirable, remove this middleware and use a shared `config`
 // for all client-side and server-side clients.
-app.use(config.client.github.proxy.rootUrl, context.github.subapp());
+app.use(config.client.flickr.proxy.rootUrl, context.flickr.subapp());
 
 // Middleware to isolate a child Context for each request. Immediately after
 // this middleware should come any customization to request-based Contexts,
@@ -68,7 +68,7 @@ app.use(renderer.childContextHandler());
 // Now that there's a child Context, we need to re-attach any user-specific
 // attachments. In this case, it's just our client.
 app.use(function (req, res, next) {
-  req.context.github = context.github.getChild({});
+  req.context.flickr = context.flickr.getChild({});
   next();
 });
 

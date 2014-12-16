@@ -1,6 +1,3 @@
-/**
- * @jsx React.DOM
- */
 var React = require('react');
 var config = require('../../config');
 var App = require('../app.jsx');
@@ -8,7 +5,7 @@ var App = require('../app.jsx');
 var About = React.createClass({
   render: function () {
     return (
-      <App>
+      <App context={this.props.context}>
         <h1>About</h1>
         <p>Config:</p>
         <pre><code>{JSON.stringify(config, null, 2)}</code></pre>

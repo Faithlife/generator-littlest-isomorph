@@ -6,28 +6,19 @@ var littlest = require('littlest-isomorph');
 var About = require('./components/screens/about.jsx');
 var Error = require('./components/screens/error.jsx');
 var Home = require('./components/screens/home.jsx');
-var Organization = require('./components/screens/org.jsx');
-var User = require('./components/screens/user.jsx');
 
 module.exports = new littlest.Router({
   routes: {
-    index: {
+    home: {
       path: '/',
-      body: Home
+      title: 'Home',
+      body: Home,
+      action: 'photos:interesting:fetch'
     },
     about: {
       path: '/about',
+      title: 'About',
       body: About
-    },
-    user: {
-      path: '/user/:name',
-      body: User,
-      action: 'user:fetch'
-    },
-    org: {
-      path: '/orgs/:name',
-      body: Organization,
-      action: 'org:fetch'
     }
   },
   defaults: {

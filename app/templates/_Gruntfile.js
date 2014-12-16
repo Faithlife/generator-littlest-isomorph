@@ -3,12 +3,10 @@
 var path = require('path');
 
 var dependencies = [
-  'littlest-dispatcher',
   'littlest-isomorph',
   'proxy-client',
   'react',
   'routr',
-  'superagent',
   'when'
 ];
 
@@ -66,6 +64,10 @@ module.exports = function (grunt) {
         options: {
           atBegin: true
         }
+      },
+      dependencies: {
+        files: ['package.json'],
+        tasks: ['browserify:dependencies', 'server']
       },
       styles: {
         files: ['styles/**/*.less'],
