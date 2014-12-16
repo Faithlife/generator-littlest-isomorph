@@ -63,13 +63,17 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.copy('bin/server', 'bin/server');
     this.copy('data/env/development.json', 'data/env/development.json');
     this.copy('data/env/production.json', 'data/env/production.json');
+    this.copy('lib/actions/pandas.js', 'lib/actions/pandas.js');
     this.copy('lib/actions/photos.js', 'lib/actions/photos.js');
+    this.copy('lib/actions/router.js', 'lib/actions/router.js');
     this.copy('lib/clients/flickr.js', 'lib/clients/flickr.js');
     this.template('lib/components/app.jsx', 'lib/components/app.jsx', this.props);
     this.copy('lib/components/photo.jsx', 'lib/components/photo.jsx');
     this.copy('lib/components/screens/about.jsx', 'lib/components/screens/about.jsx');
     this.copy('lib/components/screens/home.jsx', 'lib/components/screens/home.jsx');
     this.copy('lib/components/screens/error.jsx', 'lib/components/screens/error.jsx');
+    this.copy('lib/components/screens/panda.jsx', 'lib/components/screens/panda.jsx');
+    this.copy('lib/stores/pandas.js', 'lib/stores/pandas.js');
     this.copy('lib/stores/photos.js', 'lib/stores/photos.js');
     this.copy('lib/config.js', 'lib/config.js');
     this.copy('lib/context.js', 'lib/context.js');

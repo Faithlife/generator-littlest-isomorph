@@ -38,6 +38,48 @@ FlickrClient.prototype.call = function call(method, args) {
 };
 
 /**
+ * Returns an Array of all Flickr Panda names.
+ */
+FlickrClient.prototype.getPandaList = function getPandaList() {
+  var self = this;
+
+  return self.call('flickr.panda.getList')
+    .then(function (response) {
+      if (response.status !== 200) {
+        return self.rejectResponse(response);
+      }
+
+      return response.body.pandas.panda.map(function (panda) {
+        return panda._content;
+      });
+    });
+};
+
+/**
+ * Returns an Array of Photo objects from panda `name`. Pagination is supported
+ * via `page` and `count`.
+ */
+FlickrClient.prototype.getPandaPhotos = function getPandaPhotos(params) {
+  var self = this;
+
+  params = params || {};
+
+  return self
+    .call('flickr.panda.getPhotos', {
+      panda_name: params.name,
+      per_page: params.count,
+      page: params.page
+    })
+    .then(function (response) {
+      if (response.status !== 200) {
+        return self.rejectResponse(response);
+      }
+
+      return response.body.photos.photo;
+    });
+};
+
+/**
  * Returns an Array of "interesting" Photo objects for today.
  * Pagination is supported via `page` and `count`.
  */
