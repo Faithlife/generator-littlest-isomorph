@@ -61,3 +61,25 @@ a:hover {
     width: 100%;
   }
 }
+
+.photo {
+  margin: 16px auto;
+
+  &__title {
+    background: @brand-color;
+    .border-radius(8px 8px 0 0);
+    color: white;
+    margin: 0;
+    overflow: hidden;
+    padding: 16px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &__img {
+    .border-radius(0 0 8px 8px);
+    width: 100%;
+  }
+}

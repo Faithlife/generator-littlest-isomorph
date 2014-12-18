@@ -7,6 +7,7 @@ var SIZE_TO_TAG = {
   800: 'c',
   1024: 'b'
 };
+var SIZES = Object.keys(SIZE_TO_TAG).map(Number).sort();
 
 var Home = React.createClass({
   propTypes: {
@@ -16,33 +17,65 @@ var Home = React.createClass({
       server: React.PropTypes.string.isRequired,
       title: React.PropTypes.string.isRequired,
       secret: React.PropTypes.string.isRequired,
-    }).isRequired,
-    size: React.PropTypes.oneOf([240, 320, 640, 800, 1024]).isRequired
+    }).isRequired
   },
   getDefaultProps: function () {
     return {
-      photo: null,
-      size: 640
+      photo: null
+    };
+  },
+  getInitialState: function () {
+    return {
+      imgUrl: this.getBestImgUrl({ width: 0, height: 0 })
+    };
+  },
+  componentDidMount: function () {
+    this.setState({
+      imgUrl: this.getBestImgUrl(this.getRealDimensions())
+    });
+  },
+  getRealDimensions: function () {
+    var rect = this.getDOMNode().getBoundingClientRect();
+    var ratio = global.devicePixelRatio || 1;
+
+    return {
+      width: rect.width * ratio,
+      height: rect.height * ratio,
     };
   },
   getTitle: function () {
     return this.props.photo.title;
   },
-  getUrl: function () {
+  getBestImgUrl: function (params) {
+    var size = SIZES.reduce(function (best, width) {
+      if (!best) {
+        return width;
+      }
+
+      if (Math.abs(best - params.width) > Math.abs(width - params.width)) {
+        return width;
+      }
+
+      return best;
+    }, 0);
+
+    return this.getUrlForSize(size);
+  },
+  getUrlForSize: function (size) {
     return util.format(
       'https://farm%s.staticflickr.com/%s/%s_%s_%s.jpg',
       this.props.photo.farm,
       this.props.photo.server,
       this.props.photo.id,
       this.props.photo.secret,
-      SIZE_TO_TAG[this.props.size]
+      SIZE_TO_TAG[size]
     );
   },
   render: function () {
     return (
-      <div>
-        <h2>{this.getTitle()}</h2>
-        <img src={this.getUrl()} />
+      <div className="photo">
+        <h2 className="photo__title">{this.getTitle()}</h2>
+        <img className="photo__img" src={this.state.imgUrl} />
       </div>
     );
   }
