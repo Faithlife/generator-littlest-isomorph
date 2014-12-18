@@ -17,16 +17,14 @@ var path = require('path');
 var express = require('express');
 var littlest = require('littlest-isomorph');
 var morgan = require('morgan');
-var React = require('react');
 var FlickrClient = require('../lib/clients/flickr');
 var config = require('../lib/config');
 var context = require('../lib/context');
-var router = require('../lib/router');
 var app = express();
-var renderer = littlest.createRenderer({
-  templatePath: path.resolve(__dirname, '..', 'public', 'index.html'),
-  router: router,
-  React: React,
+var navigator = littlest.ExpressNavigator.createNavigator({
+  renderer: littlest.StaticRenderer.createRenderer({
+    templatePath: path.resolve(__dirname, '..', 'public', 'index.html')
+  }),
   context: context
 });
 
@@ -35,7 +33,7 @@ var renderer = littlest.createRenderer({
 context.flickr = FlickrClient.createClient(config.client.flickr.upstream);
 
 // Global error handler
-app.use(renderer.errorHandler());
+app.use(navigator.errorHandler());
 
 // Load-balancer-friendly up check
 app.get('/up', function (req, res) {
@@ -63,7 +61,7 @@ app.use(config.client.flickr.proxy.rootUrl, context.flickr.subapp());
 // while global Context changes should occur within this script (presumably)
 // not in middleware, since those changes should be done independent of
 // requests.
-app.use(renderer.childContextHandler());
+app.use(navigator.childContextHandler());
 
 // Now that there's a child Context, we need to re-attach any user-specific
 // attachments. In this case, it's just our client.
@@ -75,7 +73,7 @@ app.use(function (req, res, next) {
 // If the request URL is valid, this renders the top-level component, the
 // Application, based on the current Router configuration. Otherwise, a 404
 // is generated.
-app.use(renderer.requestHandler());
+app.use(navigator.requestHandler());
 
 // Finally, listen for requests!
 app.listen(config.port);

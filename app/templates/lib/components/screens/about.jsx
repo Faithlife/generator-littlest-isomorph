@@ -5,7 +5,7 @@ var App = require('../app.jsx');
 var About = React.createClass({
   render: function () {
     return (
-      <App context={this.props.context}>
+      <App>
         <h1>About</h1>
         <p>Config:</p>
         <pre><code>{JSON.stringify(config, null, 2)}</code></pre>

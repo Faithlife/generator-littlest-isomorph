@@ -10,7 +10,6 @@ var React = require('react');
 var FlickrClient = require('../lib/clients/flickr');
 var config = require('../lib/config');
 var context = require('../lib/context');
-var router = require('../lib/router');
 
 // Attach a singleton client instance to the Context. All Actions will use
 // this client from the browser. As such, all requests will be proxied through
@@ -18,14 +17,10 @@ var router = require('../lib/router');
 context.flickr = FlickrClient.createClient(config.client.flickr.proxy);
 
 // Install the client.
-littlest
-  .createClient({
-    router: router,
-    window: typeof window === 'undefined' ? this : window,
-    React: React,
+littlest.DomNavigator
+  .createNavigator({
     context: context
-  })
-  .start();
+  }).start();
 
 // Log the top-level configuration for debugging.
 console.log('Config:', config);

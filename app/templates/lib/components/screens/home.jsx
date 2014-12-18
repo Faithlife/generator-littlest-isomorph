@@ -10,7 +10,7 @@ var Home = React.createClass({
   },
   render: function () {
     return (
-      <App context={this.props.context}>
+      <App>
         <h1>Today's Interestingness</h1>
         {this.state.photos.map(function (photo) {
           return <Photo photo={photo} key={photo.id} />
