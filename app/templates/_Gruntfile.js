@@ -6,7 +6,6 @@ var dependencies = [
   'littlest-isomorph',
   'proxy-client',
   'react',
-  'routr',
   'when'
 ];
 
