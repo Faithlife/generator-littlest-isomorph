@@ -102,7 +102,7 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.log('To get started:');
     this.log('  grunt dev');
     this.log('To read more:');
-    this.log('  https://github.com/Faithlife/littlest-isomorph');
+    this.log('  https://github.com/Littlest/littlest-isomorph');
     this.log('  http://facebook.github.io/react/');
     this.log();
   }
