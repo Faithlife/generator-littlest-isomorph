@@ -1,10 +1,10 @@
 {
-  "name": "generator-littlest-isomorph",
+  "name": "generator-littlest",
   "version": "0.10.1",
-  "description": "A Yeoman generator for littlest-isomorph scaffolding.",
+  "description": "A Yeoman generator for Littlest scaffolding.",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "Schoonology/generator-littlest-isomorph",
+  "repository": "Littlest/generator-littlest",
   "author": {
     "name": "Michael Schoonmaker",
     "email": "michael.r.schoonmaker@gmail.com",
