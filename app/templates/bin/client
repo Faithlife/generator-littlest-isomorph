@@ -10,6 +10,7 @@ var React = require('react');
 var FlickrClient = require('../lib/clients/flickr');
 var config = require('../lib/config');
 var context = require('../lib/context');
+var logger = require('../lib/logger');
 
 // Attach a singleton client instance to the Context. All Actions will use
 // this client from the browser. As such, all requests will be proxied through
@@ -20,10 +21,11 @@ context.flickr = FlickrClient.createClient(config.client.flickr.proxy);
 littlest.DomNavigator
   .createNavigator({
     context: context
-  }).start();
+  })
+  .start();
 
 // Log the top-level configuration for debugging.
-console.log('Config:', config);
+logger.log('Config:', config);
 
 // Expose React to trigger the React devtools.
 if (config.env === 'development') {

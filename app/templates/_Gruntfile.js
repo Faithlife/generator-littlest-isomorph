@@ -3,6 +3,9 @@
 var path = require('path');
 
 var dependencies = [
+  'bunyan',
+  'debug',
+  'iso-bunyan-stream',
   'littlest-isomorph',
   'proxy-client',
   'react',

@@ -20,6 +20,7 @@ var morgan = require('morgan');
 var FlickrClient = require('../lib/clients/flickr');
 var config = require('../lib/config');
 var context = require('../lib/context');
+var logger = require('../lib/logger');
 var app = express();
 var navigator = littlest.ExpressNavigator.createNavigator({
   renderer: littlest.StaticRenderer.createRenderer({
@@ -44,7 +45,7 @@ app.get('/up', function (req, res) {
 });
 
 // Install a logger that sends formatted messages to STDOUT.
-app.use(morgan(config.logger.format));
+app.use(morgan(config.logger.format, { stream: logger.asStream('info') }));
 
 // File middleware for static files. Should fall through on _all_
 // unknown routes.
@@ -81,7 +82,7 @@ app.use(navigator.requestHandler());
 // Finally, listen for requests!
 app.listen(config.port, config.hostname)
   .on('listening', function () {
-    console.log('Server %s listening at %s:%s...', process.pid, this.address().address, this.address().port);
+    logger.log('Server %s listening at %s:%s...', process.pid, this.address().address, this.address().port);
   });
 
 // The `disconnect` event is used by `cluster`, the master process, to signal
@@ -89,5 +90,5 @@ app.listen(config.port, config.hostname)
 // sockets, both open and bound, which should be our only open handles. At
 // some point after this, the process should exit gracefully on its own.
 process.on('disconnect', function () {
-  console.log('Server %s shutting down...', process.pid);
+  logger.log('Server %s shutting down...', process.pid);
 });
