@@ -11,6 +11,8 @@
  */
 var os = require('os');
 var env = process.env.NODE_ENV || 'development';
+var hostname = process.env.HOSTNAME || '0.0.0.0';
+var port = process.env.PORT || 8080;
 var validEnvs = ['development', 'production'];
 
 if (validEnvs.indexOf(env) === -1) {
@@ -29,7 +31,8 @@ function byEnv(config) {
 
 module.exports = {
   env: env,
-  port: process.env.PORT || 8080,
+  hostname: hostname,
+  port: port,
   cluster: {
     instances: byEnv({
       development: 2,

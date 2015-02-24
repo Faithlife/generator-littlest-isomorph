@@ -28,6 +28,9 @@ var navigator = littlest.ExpressNavigator.createNavigator({
   context: context
 });
 
+// Log the top-level configuration for debugging.
+console.log('Config: %j', config);
+
 // Mount a client on the parent Context. We'll attach a per-user client in
 // middleware, below.
 context.flickr = FlickrClient.createClient(config.client.flickr.upstream);
@@ -76,10 +79,10 @@ app.use(function (req, res, next) {
 app.use(navigator.requestHandler());
 
 // Finally, listen for requests!
-app.listen(config.port);
-
-console.log('Server %s listening on port %s...', process.pid, config.port);
-console.log('Config: %j', config);
+app.listen(config.port, config.hostname)
+  .on('listening', function () {
+    console.log('Server %s listening at %s:%s...', process.pid, this.address().address, this.address().port);
+  });
 
 // The `disconnect` event is used by `cluster`, the master process, to signal
 // a graceful shutdown. Node core will take care of managing the currently-open
