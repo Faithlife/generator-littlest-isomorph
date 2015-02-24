@@ -30,4 +30,7 @@ logger.log('Config:', config);
 // Expose React to trigger the React devtools.
 if (config.env === 'development') {
   global.React = React;
+
+  // Additionally, expose our context for inspection.
+  global.context = context;
 }

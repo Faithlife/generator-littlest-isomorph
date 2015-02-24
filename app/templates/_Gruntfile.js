@@ -21,7 +21,10 @@ module.exports = function (grunt) {
         src: [],
         dest: 'public/dependencies.bundle.js',
         options: {
-          require: dependencies
+          require: dependencies,
+          bundleOptions: {
+            debug: true
+          }
         }
       },
       app: {
@@ -29,7 +32,22 @@ module.exports = function (grunt) {
         dest: 'public/app.bundle.js',
         options: {
           external: dependencies,
-          transform: ['envify', 'reactify']
+          transform: ['envify', 'reactify'],
+          bundleOptions: {
+            debug: true
+          }
+        }
+      }
+    },
+    exorcise: {
+      app: {
+        files: {
+          'public/app.bundle.map': ['public/app.bundle.js']
+        }
+      },
+      dependencies: {
+        files: {
+          'public/dependencies.bundle.map': ['public/dependencies.bundle.js']
         }
       }
     },
@@ -51,14 +69,14 @@ module.exports = function (grunt) {
     watch: {
       client: {
         files: ['bin/client'],
-        tasks: ['browserify:app'],
+        tasks: ['browserify:app', 'exorcise:app'],
         options: {
           atBegin: true
         }
       },
       shared: {
         files: ['data/**/*.json', 'lib/**/*.js', 'lib/**/*.jsx', 'lib/**/*.json'],
-        tasks: ['browserify:app', 'server']
+        tasks: ['browserify:app', 'exorcise:app', 'server']
       },
       server: {
         files: ['bin/server', 'bin/cluster', 'public/index.html'],
@@ -69,7 +87,7 @@ module.exports = function (grunt) {
       },
       dependencies: {
         files: ['package.json'],
-        tasks: ['browserify:dependencies', 'server']
+        tasks: ['browserify:dependencies', 'exorcise:dependencies', 'server']
       },
       styles: {
         files: ['styles/**/*.less'],
@@ -87,6 +105,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-exorcise');
 
   grunt.registerTask('npm', function (command, arg) {
     grunt.util.spawn({
@@ -123,7 +142,7 @@ module.exports = function (grunt) {
     }, function () {});
   });
 
-  grunt.registerTask('default', ['browserify', 'less']);
-  grunt.registerTask('dev', ['browserify:dependencies', 'watch']);
   grunt.registerTask('logs', ['npm:run-script:logs']);
+  grunt.registerTask('default', ['browserify', 'exorcise', 'less']);
+  grunt.registerTask('dev', ['browserify:dependencies', 'exorcise:dependencies', 'watch']);
 };
