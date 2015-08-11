@@ -74,7 +74,7 @@ var LittlestIsomorphGenerator = yeoman.generators.Base.extend({
     this.copy('lib/config.js', 'lib/config.js');
     this.copy('lib/context.js', 'lib/context.js');
     this.template('lib/logger.js', 'lib/logger.js', this.props);
-    this.copy('lib/router.js', 'lib/router.js');
+    this.copy('lib/routes.js', 'lib/routes.js');
     this.template('public/index.html', 'public/index.html', this.props);
     this.copy('public/favicon.ico', 'public/favicon.ico');
     this.copy('styles/app.less', 'styles/app.less');

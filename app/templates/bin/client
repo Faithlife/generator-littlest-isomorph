@@ -2,8 +2,8 @@
 'use strict';
 
 /*!
- * This "script" bootstraps the client-specific code. See Client.js for
- * more information.
+ * `bin/client` contains all client-specific code, run immediately only in the
+ * browser.
  */
 var littlest = require('littlest-isomorph');
 var React = require('react');
@@ -12,25 +12,25 @@ var config = require('../lib/config');
 var context = require('../lib/context');
 var logger = require('../lib/logger');
 
-// Attach a singleton client instance to the Context. All Actions will use
-// this client from the browser. As such, all requests will be proxied through
-// our server instance.
-context.flickr = FlickrClient.createClient(config.client.flickr.proxy);
+// Log the top-level configuration for debugging.
+logger.log('Config:', config);
 
-// Install the client.
+// Attach a singleton client instance to the Context. All Actions will use
+// this client from the browser. Because of the way we've configured it, all
+// requests will be proxied through our server instance.
+context.createAttachment('flickr', FlickrClient.createClient(config.client.flickr.proxy));
+
+if (config.env === 'development') {
+  // Expose React to trigger the React devtools.
+  window.React = React;
+
+  // Additionally, expose our context for inspection.
+  window.context = context;
+}
+
+// Now that anything browser-specific is ready, let's get started!
 littlest.DomNavigator
   .createNavigator({
     context: context
   })
   .start();
-
-// Log the top-level configuration for debugging.
-logger.log('Config:', config);
-
-// Expose React to trigger the React devtools.
-if (config.env === 'development') {
-  global.React = React;
-
-  // Additionally, expose our context for inspection.
-  global.context = context;
-}

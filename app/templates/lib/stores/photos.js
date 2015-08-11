@@ -1,7 +1,7 @@
 var context = require('../context');
 
 context.createStore('photos')
-  .define('interesting', [])
-  .handle('photos:interesting:fetch:succeeded', function (data) {
-    this.interesting = data;
+  .set('interesting', [])
+  .handle('photos:interesting:fetch:succeeded', function (scene) {
+    this.set('interesting', scene.result);
   });

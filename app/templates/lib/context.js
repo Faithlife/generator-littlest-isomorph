@@ -10,4 +10,4 @@ module.exports = littlest.createContext({
 // using `require` to ensure some JavaScript gets run, populating our Context.
 require('./actions/photos');
 require('./stores/photos');
-require('./router');
+require('./routes');
